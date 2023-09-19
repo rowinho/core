@@ -2,7 +2,7 @@
 from solax import real_time_api
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, Platform
+from homeassistant.const import CONF_IP_ADDRESS, CONF_PASSWORD, CONF_PORT, CONF_MODEL, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 
@@ -19,6 +19,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             entry.data[CONF_IP_ADDRESS],
             entry.data[CONF_PORT],
             entry.data[CONF_PASSWORD],
+            entry.data[CONF_MODEL],
         )
         await api.get_data()
     except Exception as err:
