@@ -5,7 +5,7 @@ import logging
 from typing import Any
 
 from solax import real_time_api
-from solax.discovery import DiscoveryError
+from solax.discovery import DiscoveryError, get_models
 import voluptuous as vol
 
 from homeassistant import config_entries
@@ -19,12 +19,14 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_PORT = 80
 DEFAULT_PASSWORD = ""
+DEFAULT_MODEL = None
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_IP_ADDRESS): cv.string,
         vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
         vol.Optional(CONF_PASSWORD, default=DEFAULT_PASSWORD): cv.string,
+        vol.Optional(CONF_MODEL, default=DEFAULT_MODEL): vol.In(get_models()),
     }
 )
 
@@ -33,7 +35,7 @@ async def validate_api(data) -> str:
     """Validate the credentials."""
 
     api = await real_time_api(
-        data[CONF_IP_ADDRESS], data[CONF_PORT], data[CONF_PASSWORD]
+        data[CONF_IP_ADDRESS], data[CONF_PORT], data[CONF_PASSWORD], data[CONF_MODEL]
     )
     response = await api.get_data()
     return response.serial_number
