@@ -6,5 +6,6 @@
   "documentation": "https://www.home-assistant.io/integrations/solax",
   "iot_class": "local_polling",
   "loggers": ["solax"],
-  "requirements": ["solax==0.3.2"]
+  "requirements": ["git+https://github.com/rowinho/solax.git@master#solax==1.0"],
+  "version": "0.0.1"
 }
